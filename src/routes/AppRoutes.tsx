@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from '../features/auth/LoginPage';
+import WhitelistPage from '../features/auth/WhitelistPage';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { useAuth } from '../hooks/useAuth';
 
@@ -32,6 +33,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/whitelist" element={<WhitelistPage />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
 
       <Route

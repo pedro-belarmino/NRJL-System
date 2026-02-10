@@ -1,6 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import type { User as FirebaseUser } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../config/firebase';
 import type { Role, UserProfile } from '../types/auth';
 
@@ -59,6 +59,11 @@ export const fetchUserRole = async (email: string): Promise<Role> => {
 
 export const logoutUser = async (): Promise<void> => {
   await signOut(auth);
+};
+
+export const addToWhitelist = async (email: string, role: Role): Promise<void> => {
+  const docRef = doc(db, 'allowed_users', email);
+  await setDoc(docRef, { email, role });
 };
 
 export const mapFirebaseUserToProfile = async (user: FirebaseUser): Promise<UserProfile | null> => {
