@@ -29,17 +29,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     const authorized = await isEmailAuthorized(currentUser.email);
                     setIsAuthorized(authorized);
 
-                    const userRef = doc(db, "users", currentUser.uid);
-                    const snapshot = await getDoc(userRef);
+                    if (authorized) {
+                        const userRef = doc(db, "users", currentUser.uid);
+                        const snapshot = await getDoc(userRef);
 
-                    if (!snapshot.exists()) {
-                        await setDoc(userRef, {
-                            uid: currentUser.uid,
-                            displayName: currentUser.displayName,
-                            email: currentUser.email,
-                            photoURL: currentUser.photoURL,
-                            createdAt: Timestamp.now(),
-                        });
+                        if (!snapshot.exists()) {
+                            await setDoc(userRef, {
+                                uid: currentUser.uid,
+                                displayName: currentUser.displayName,
+                                email: currentUser.email,
+                                photoURL: currentUser.photoURL,
+                                createdAt: Timestamp.now(),
+                            });
+                        }
                     }
 
                     setUser(currentUser);
@@ -48,6 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     setIsAuthorized(false);
                 }
             } catch (error) {
+                console.error("Auth status error: ", error);
                 setUser(null);
                 setIsAuthorized(false);
             } finally {

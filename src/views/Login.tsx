@@ -10,22 +10,25 @@ import {
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "./LoadingScreen";
 
-function App() {
-
-    const navigate = useNavigate()
-    const { user, loading } = useAuth();
+function Login() {
+    const navigate = useNavigate();
+    const { user, loading, isAuthorized } = useAuth();
 
     const handleLogin = async () => {
-        const provider = new GoogleAuthProvider();
-        setPersistence(auth, browserLocalPersistence);
-        await signInWithPopup(auth, provider);
+        try {
+            const provider = new GoogleAuthProvider();
+            await setPersistence(auth, browserLocalPersistence);
+            await signInWithPopup(auth, provider);
+        } catch (error) {
+            console.error("Login failed: ", error);
+        }
     };
 
     const handleLogout = async () => {
         await signOut(auth);
     };
 
-    if (loading) return <LoadingScreen />
+    if (loading) return <LoadingScreen />;
 
     return (
         <Card
@@ -61,26 +64,26 @@ function App() {
                             sx={{ gap: 2 }}
                         >
                             <Box>
-                                <Typography
-                                    variant="h6"
-                                    sx={{ mt: 1 }}
-                                >
+                                <Typography variant="h6" sx={{ mt: 1 }}>
                                     Bem-vindo, {user.displayName}
                                 </Typography>
                             </Box>
 
                             <Avatar
                                 src={user.photoURL || ""}
-                                alt={user.displayName || ''}
+                                alt={user.displayName || ""}
                                 sx={{ width: 56, height: 56 }}
                             />
                         </Box>
+                        {!isAuthorized && (
+                            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+                                Seu e-mail não está autorizado para acessar este sistema.
+                                Entre em contato com a administração.
+                            </Typography>
+                        )}
                     </>
                 ) : (
-                    <Typography
-                        variant="h6"
-                        sx={{ mb: 2 }}
-                    >
+                    <Typography variant="h6" sx={{ mb: 2 }}>
                         Acesse sua conta
                     </Typography>
                 )}
@@ -96,9 +99,16 @@ function App() {
             >
                 {user ? (
                     <>
-                        <Button variant="contained" color="warning" fullWidth onClick={() => navigate('/home')}>
-                            Entrar
-                        </Button>
+                        {isAuthorized && (
+                            <Button
+                                variant="contained"
+                                color="warning"
+                                fullWidth
+                                onClick={() => navigate("/home")}
+                            >
+                                Entrar
+                            </Button>
+                        )}
                         <Button
                             variant="outlined"
                             color="error"
@@ -120,7 +130,7 @@ function App() {
                         <br />
                         <br />
                         <Typography fontSize={"small"}>
-                            (*) É necessário ter uma conta de e-mail do Google. Muagra 🙌🏻
+                            (*) É necessário ter uma conta de e-mail do Google. Muagra 🙌🏻
                         </Typography>
                     </div>
                 )}
@@ -129,4 +139,4 @@ function App() {
     );
 }
 
-export default App;
+export default Login;
