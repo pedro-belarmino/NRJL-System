@@ -3,8 +3,10 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './views/Login';
 import Home from './views/Home';
+import Admin from './views/Admin';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import LoadingScreen from './views/LoadingScreen';
+import type { UserRole } from './service/authoriseEmailService';
 
 const theme = createTheme({
   colorSchemes: {
@@ -12,13 +14,17 @@ const theme = createTheme({
   },
 });
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading, isAuthorized } = useAuth();
+const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode, allowedRoles?: UserRole[] }) => {
+  const { user, loading, isAuthorized, role } = useAuth();
 
   if (loading) return <LoadingScreen />;
 
   if (!user || !isAuthorized) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles && role && !allowedRoles.includes(role)) {
+    return <Navigate to="/home" replace />;
   }
 
   return <>{children}</>;
@@ -49,6 +55,14 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={['developer', 'coordinator']}>
+                <Admin />
               </ProtectedRoute>
             }
           />
