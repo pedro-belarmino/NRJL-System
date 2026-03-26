@@ -1,7 +1,132 @@
-export default function Login() {
+import { useAuth } from "../context/AuthContext";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { setPersistence, browserLocalPersistence } from "firebase/auth";
+import { auth } from "../firebase/config";
+import {
+    Box, Button, Typography,
+    Avatar,
+    Card, CardContent, CardActions
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import LoadingScreen from "./LoadingScreen";
+
+function App() {
+
+    const navigate = useNavigate()
+    const { user, loading } = useAuth();
+
+    const handleLogin = async () => {
+        const provider = new GoogleAuthProvider();
+        setPersistence(auth, browserLocalPersistence);
+        await signInWithPopup(auth, provider);
+    };
+
+    const handleLogout = async () => {
+        await signOut(auth);
+    };
+
+    if (loading) return <LoadingScreen />
+
     return (
-        <>
-            login
-        </>
-    )
+        <Card
+            sx={{
+                maxWidth: 400,
+                mx: "auto",
+                mt: 4,
+                p: 2,
+                borderRadius: 3,
+                boxShadow: 6,
+                textAlign: "center",
+            }}
+        >
+            <img
+                src="/trilhaDoAgradecedor.png"
+                alt="LogoTrilhaDoAgradecedor"
+                style={{ width: 400, maxWidth: "100%" }}
+            />
+            <img
+                src="/logo_semfundo.png"
+                alt="Logo"
+                style={{ width: 80, maxWidth: "100%" }}
+            />
+
+            <CardContent>
+                {user ? (
+                    <>
+                        <Box
+                            display="flex"
+                            flexDirection={{ xs: "column", sm: "row" }}
+                            alignItems="center"
+                            justifyContent="center"
+                            sx={{ gap: 2 }}
+                        >
+                            <Box>
+                                <Typography
+                                    variant="h6"
+                                    sx={{ mt: 1 }}
+                                >
+                                    Bem-vindo, {user.displayName}
+                                </Typography>
+                            </Box>
+
+                            <Avatar
+                                src={user.photoURL || ""}
+                                alt={user.displayName || ''}
+                                sx={{ width: 56, height: 56 }}
+                            />
+                        </Box>
+                    </>
+                ) : (
+                    <Typography
+                        variant="h6"
+                        sx={{ mb: 2 }}
+                    >
+                        Acesse sua conta
+                    </Typography>
+                )}
+            </CardContent>
+
+            <CardActions
+                sx={{
+                    display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
+                    gap: 2,
+                    justifyContent: "center",
+                }}
+            >
+                {user ? (
+                    <>
+                        <Button variant="contained" color="warning" fullWidth onClick={() => navigate('/home')}>
+                            Entrar
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={handleLogout}
+                            fullWidth
+                        >
+                            Sair da conta
+                        </Button>
+                    </>
+                ) : (
+                    <div>
+                        <Button
+                            variant="contained"
+                            onClick={handleLogin}
+                            fullWidth
+                        >
+                            Login com Google (*Somente)
+                        </Button>
+                        <br />
+                        <br />
+                        <Typography fontSize={"small"}>
+                            (*) É necessário ter uma conta de e-mail do Google. Muagra 🙌🏻
+                        </Typography>
+                    </div>
+                )}
+            </CardActions>
+        </Card>
+    );
 }
+
+export default App;
