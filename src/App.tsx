@@ -5,6 +5,7 @@ import { CssBaseline } from '@mui/material';
 
 import Home from './views/Home';
 import Authorization from './views/Authorization';
+import CreateTask from './views/CreateTask';
 import Template from './components/shared/Template';
 import PrivateWrapper from './routes/PriavateWrapper';
 
@@ -29,6 +30,7 @@ function App() {
                         <Route element={<Template />}>
                             <Route path='/home' element={<Home />} />
                             <Route path='/authorization' element={<Authorization />} />
+                            <Route path='/criar-tarefa' element={<CreateTask />} />
                         </Route>
                     </Route>
                 </Routes>

@@ -19,9 +19,17 @@ export default function PrivateWrapper() {
     }
 
     // Role-based route protection
+    const isSuperUser = user.email === "pedro.belarmino@escoteiros.org.br";
+    const isAdmin = profile === "desenvolvedor" || profile === "coordenador" || isSuperUser;
+
     if (location.pathname === "/authorization") {
-        const canAccess = profile === "desenvolvedor" || profile === "coordenador" || user.email === "pedro.belarmino@escoteiros.org.br";
-        if (!canAccess) {
+        if (!isAdmin) {
+            return <Navigate to="/home" replace />;
+        }
+    }
+
+    if (location.pathname === "/criar-tarefa") {
+        if (!isAdmin) {
             return <Navigate to="/home" replace />;
         }
     }
