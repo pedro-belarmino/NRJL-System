@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { Box, CircularProgress } from "@mui/material";
 
 export default function PrivateWrapper() {
-    const { user, loading } = useAuth();
+    const { user, profile, loading, isAuthorized } = useAuth();
     const location = useLocation();
 
     if (loading) {
@@ -14,9 +14,16 @@ export default function PrivateWrapper() {
         );
     }
 
-
-    if (!user && location.pathname !== "/") {
+    if (!user || !isAuthorized) {
         return <Navigate to="/" replace />;
+    }
+
+    // Role-based route protection
+    if (location.pathname === "/authorization") {
+        const canAccess = profile === "desenvolvedor" || profile === "coordenador" || user.email === "pedro.belarmino@escoteiros.org.br";
+        if (!canAccess) {
+            return <Navigate to="/home" replace />;
+        }
     }
 
     return <Outlet />;

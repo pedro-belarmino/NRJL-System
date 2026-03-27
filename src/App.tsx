@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme, } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 import Home from './views/Home';
+import Authorization from './views/Authorization';
 import Template from './components/shared/Template';
 import PrivateWrapper from './routes/PriavateWrapper';
 
@@ -27,6 +28,7 @@ function App() {
                     <Route element={<PrivateWrapper />}>
                         <Route element={<Template />}>
                             <Route path='/home' element={<Home />} />
+                            <Route path='/authorization' element={<Authorization />} />
                         </Route>
                     </Route>
                 </Routes>
