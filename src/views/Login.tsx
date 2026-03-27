@@ -30,7 +30,7 @@ function App() {
 
     if (loading) return (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-            <CircularProgress color="warning" />
+            <CircularProgress color="primary" />
         </Box>
     );
 
@@ -109,7 +109,7 @@ function App() {
             >
                 {user && isAuthorized ? (
                     <>
-                        <Button variant="contained" color="warning" fullWidth onClick={() => navigate('/home')}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => navigate('/home')}>
                             Entrar
                         </Button>
                         <Button

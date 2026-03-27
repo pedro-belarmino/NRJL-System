@@ -62,7 +62,7 @@ export default function CreateTask() {
     return (
         <Container maxWidth="sm" sx={{ py: 4 }}>
             <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
-                <Typography variant="h5" fontWeight="bold" gutterBottom>
+                <Typography variant="h5" fontWeight="bold" gutterBottom color="primary">
                     Criar Nova Tarefa
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -124,7 +124,7 @@ export default function CreateTask() {
                         <Button
                             type="submit"
                             variant="contained"
-                            color="warning"
+                            color="primary"
                             fullWidth
                             size="large"
                             disabled={!title || !assignedTo || !deadline}

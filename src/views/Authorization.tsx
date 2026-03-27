@@ -66,7 +66,7 @@ export default function Authorization() {
     return (
         <Container maxWidth="sm" sx={{ py: 4 }}>
             <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
-                <Typography variant="h5" fontWeight="bold" gutterBottom>
+                <Typography variant="h5" fontWeight="bold" gutterBottom color="primary">
                     Autorização de Usuários
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -109,7 +109,7 @@ export default function Authorization() {
                         <Button
                             type="submit"
                             variant="contained"
-                            color="warning"
+                            color="primary"
                             fullWidth
                             size="large"
                             disabled={!email || allowedRoles.length === 0}

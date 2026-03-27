@@ -52,7 +52,7 @@ export default function NavBar() {
                     label="Home"
                     icon={<HomeIcon />}
                     onClick={() => navigate('/home')}
-                    sx={{ '&.Mui-selected': { color: 'warning.main' } }}
+                    sx={{ '&.Mui-selected': { color: 'primary.main' } }}
                 />
 
                 {isAdmin && (
@@ -60,7 +60,7 @@ export default function NavBar() {
                         label="Criar"
                         icon={<AddCircleOutlineIcon />}
                         onClick={() => navigate('/criar-tarefa')}
-                        sx={{ '&.Mui-selected': { color: 'warning.main' } }}
+                        sx={{ '&.Mui-selected': { color: 'primary.main' } }}
                     />
                 )}
 
@@ -69,7 +69,7 @@ export default function NavBar() {
                         label="Autorizar"
                         icon={<ManageAccountsIcon />}
                         onClick={() => navigate('/authorization')}
-                        sx={{ '&.Mui-selected': { color: 'warning.main' } }}
+                        sx={{ '&.Mui-selected': { color: 'primary.main' } }}
                     />
                 )}
 
@@ -77,7 +77,7 @@ export default function NavBar() {
                     label="Sair"
                     icon={<LogoutRoundedIcon />}
                     onClick={handleLogout}
-                    sx={{ '&.Mui-selected': { color: 'warning.main' } }}
+                    sx={{ '&.Mui-selected': { color: 'primary.main' } }}
                 />
             </BottomNavigation>
         </Box>
