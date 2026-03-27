@@ -6,11 +6,11 @@ import GoogleIcon from '@mui/icons-material/Google';
 import {
     Box, Button, Typography,
     Avatar,
-    Card, CardContent, CardActions
+    Card, CardContent, CardActions,
+    CircularProgress
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { version } from '../../versioning'
-import LoadingScreen from "./LoadingScreen";
 
 function App() {
 
@@ -27,7 +27,11 @@ function App() {
         await signOut(auth);
     };
 
-    if (loading) return <LoadingScreen />
+    if (loading) return (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+            <CircularProgress color="warning" />
+        </Box>
+    );
 
     return (
         <Card

@@ -1,21 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './views/Login'
-import CreateTask from './views/CreateTask'
-
 import { ThemeProvider, createTheme, } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 import Home from './views/Home';
 import Template from './components/shared/Template';
-import History from './views/History';
-import Report from './views/Report';
 import PrivateWrapper from './routes/PriavateWrapper';
-import ArchivedTasks from './views/ArchivedTasks';
-import GlobalCounter from './views/GlobalCounter';
-import AuthorizeEmail from './views/AuthorizeEmail';
-import AuthorizeEmailPartial from './views/AuthorizeEmailPartial';
-// import AccessDenied from './views/AccessDenied';
-import PrincingComponent from './views/PricingComponent';
 
 function App() {
 
@@ -33,43 +23,11 @@ function App() {
                 <Routes>
                     <Route path='/' element={<Login />} />
                     <Route path='*' element={<Login />} />
-                    <Route path='/authorize-email' element={<AuthorizeEmail />} />
-                    <Route path='/authorize-email-partial' element={<AuthorizeEmailPartial />} />
-                    <Route path='/acesso-negado' element={<PrincingComponent />} />
 
                     <Route element={<PrivateWrapper />}>
                         <Route element={<Template />}>
-                            <Route path='/criar-tarefa' element={<CreateTask />} />
                             <Route path='/home' element={<Home />} />
-                            <Route path='/historico' element={<History />} />
-                            <Route path='/relatorio' element={<Report />} />
-                            <Route path='/arquivadas' element={<ArchivedTasks />} />
-                            <Route path='muagrometro' element={<GlobalCounter />} />
-                            <Route
-                                path='--'
-                                element={
-                                    <div
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            minHeight: '100vh',
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center'
-                                        }}
-                                    >
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="/-/guardiao.jpg"
-                                            alt=""
-                                        />
-                                    </div>
-                                }
-                            />
                         </Route>
-
-
-
                     </Route>
                 </Routes>
             </BrowserRouter>
