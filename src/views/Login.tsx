@@ -2,12 +2,14 @@ import { useAuth } from "../context/AuthContext";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { setPersistence, browserLocalPersistence } from "firebase/auth";
 import { auth } from "../firebase/config";
+import GoogleIcon from '@mui/icons-material/Google';
 import {
     Box, Button, Typography,
     Avatar,
     Card, CardContent, CardActions
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { version } from '../../versioning'
 import LoadingScreen from "./LoadingScreen";
 
 function App() {
@@ -113,6 +115,7 @@ function App() {
                         <Button
                             variant="contained"
                             onClick={handleLogin}
+                            startIcon={<GoogleIcon />}
                             fullWidth
                         >
                             Login com Google (*Somente)
@@ -125,6 +128,7 @@ function App() {
                     </div>
                 )}
             </CardActions>
+            <p style={{ fontSize: 'small', }}>{version}</p>
         </Card>
     );
 }

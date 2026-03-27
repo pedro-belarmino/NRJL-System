@@ -12,11 +12,11 @@ export default function LoadingScreen() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                bgcolor: 'background.default',
-                zIndex: (theme) => theme.zIndex.modal + 1
+                bgcolor: 'background.default', // usa a cor de fundo padrão do tema
+                zIndex: (theme) => theme.zIndex.modal + 1 // fica acima de modais
             }}
         >
-            <CircularProgress color="secondary" size="3rem" />
+            <CircularProgress color="warning" size="3rem" />
         </Box>
     );
 }

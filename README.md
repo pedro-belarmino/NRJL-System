@@ -1,73 +1,34 @@
-# React + TypeScript + Vite
+# 📌 Muagra Rotina — Gerenciador de Rotinas  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Muagra Rotina** é um **SaaS de gerenciamento de tarefas e rotinas** voltado para ajudar usuários a manterem hábitos consistentes no dia a dia.  
+O sistema permite criar tarefas personalizadas (com metas diárias e totais), marcá-las como concluídas, acompanhar o histórico de desempenho e visualizar relatórios de progresso.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologias Utilizadas  
 
-## React Compiler
+- **Frontend:** [React.js](https://reactjs.org/) + [Vite](https://vitejs.dev/)  
+- **UI/UX:** [Material UI (MUI)](https://mui.com/)  
+- **Autenticação:** [Firebase Authentication](https://firebase.google.com/docs/auth) (Login com Google)  
+- **Banco de Dados:** [Cloud Firestore](https://firebase.google.com/docs/firestore)  
+- **Hospedagem:** [Vercel](https://vercel.com/) (deploy automático via GitHub)  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Funcionalidades  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 🔑 Login com conta Google  
+- 📝 Criação e gerenciamento de tarefas com:  
+  - Nome, descrição, unidade de medida (km, repetições, tempo, etc.)  
+  - Metas diárias e totais  
+  - Horário definido  
+  - Opção de tarefa diária  
+- ✅ Marcar e desmarcar tarefas como concluídas  
+- 📊 Registro de logs detalhados (incluindo valores além da meta)  
+- 🗂 Histórico completo de tarefas, mesmo após arquivadas ou excluídas  
+- 📈 Relatórios de desempenho:  
+  - Dias totais concluídos  
+  - Dias seguidos (streak)  
+  - Medidas acumuladas por unidade  
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
