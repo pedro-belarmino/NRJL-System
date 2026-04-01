@@ -1,29 +1,36 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import LoadingScreen from "../views/LoadingScreen";
+import { Box, CircularProgress } from "@mui/material";
 
 export default function PrivateWrapper() {
-    const { user, loading, isAuthorized, isAuthorizedPartial } = useAuth();
+    const { user, profile, loading, isAuthorized } = useAuth();
     const location = useLocation();
 
     if (loading) {
-        return <LoadingScreen />;
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+                <CircularProgress color="warning" />
+            </Box>
+        );
     }
 
-
-    if (!user && location.pathname !== "/") {
+    if (!user || !isAuthorized) {
         return <Navigate to="/" replace />;
     }
 
-    if (user && !isAuthorized) {
-        const allowedPaths = ["/home", "/acesso-negado", "/muagrometro"];
+    // Role-based route protection
+    const isSuperUser = user.email === "pedro.belarmino@escoteiros.org.br";
+    const isAdmin = profile === "desenvolvedor" || profile === "coordenador" || isSuperUser;
 
-        if (isAuthorizedPartial) {
-            allowedPaths.push("/criar-tarefa");
+    if (location.pathname === "/authorization") {
+        if (!isAdmin) {
+            return <Navigate to="/home" replace />;
         }
+    }
 
-        if (!allowedPaths.includes(location.pathname)) {
-            return <Navigate to="/acesso-negado" replace />;
+    if (location.pathname === "/criar-tarefa") {
+        if (!isAdmin) {
+            return <Navigate to="/home" replace />;
         }
     }
 

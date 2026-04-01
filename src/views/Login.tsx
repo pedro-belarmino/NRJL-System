@@ -6,16 +6,17 @@ import GoogleIcon from '@mui/icons-material/Google';
 import {
     Box, Button, Typography,
     Avatar,
-    Card, CardContent, CardActions
+    Card, CardContent, CardActions,
+    CircularProgress,
+    Alert
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { version } from '../../versioning'
-import LoadingScreen from "./LoadingScreen";
 
 function App() {
 
     const navigate = useNavigate()
-    const { user, loading } = useAuth();
+    const { user, loading, error, isAuthorized } = useAuth();
 
     const handleLogin = async () => {
         const provider = new GoogleAuthProvider();
@@ -27,7 +28,11 @@ function App() {
         await signOut(auth);
     };
 
-    if (loading) return <LoadingScreen />
+    if (loading) return (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+            <CircularProgress color="primary" />
+        </Box>
+    );
 
     return (
         <Card
@@ -53,7 +58,13 @@ function App() {
             />
 
             <CardContent>
-                {user ? (
+                {error && (
+                    <Alert severity="error" sx={{ mb: 2 }}>
+                        {error}
+                    </Alert>
+                )}
+
+                {user && isAuthorized ? (
                     <>
                         <Box
                             display="flex"
@@ -96,9 +107,9 @@ function App() {
                     justifyContent: "center",
                 }}
             >
-                {user ? (
+                {user && isAuthorized ? (
                     <>
-                        <Button variant="contained" color="warning" fullWidth onClick={() => navigate('/home')}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => navigate('/home')}>
                             Entrar
                         </Button>
                         <Button
@@ -123,7 +134,7 @@ function App() {
                         <br />
                         <br />
                         <Typography fontSize={"small"}>
-                            (*) É necessário ter uma conta de e-mail do Google. Muagra 🙌🏻
+                            (*) É necessário ter uma conta de e-mail do Google com o domínio <b>@escoteiros.org.br</b>. Muagra 🙌🏻
                         </Typography>
                     </div>
                 )}

@@ -1,25 +1,30 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './views/Login'
-import CreateTask from './views/CreateTask'
-
 import { ThemeProvider, createTheme, } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 import Home from './views/Home';
+import Authorization from './views/Authorization';
+import CreateTask from './views/CreateTask';
 import Template from './components/shared/Template';
-import History from './views/History';
-import Report from './views/Report';
 import PrivateWrapper from './routes/PriavateWrapper';
-import ArchivedTasks from './views/ArchivedTasks';
-import GlobalCounter from './views/GlobalCounter';
-import AuthorizeEmail from './views/AuthorizeEmail';
-import AuthorizeEmailPartial from './views/AuthorizeEmailPartial';
-// import AccessDenied from './views/AccessDenied';
-import PrincingComponent from './views/PricingComponent';
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import 'dayjs/locale/pt-br';
 
 function App() {
 
     const theme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#1976d2', // Standard blue primary
+            },
+            secondary: {
+                main: '#9c27b0', // Purple secondary
+            },
+        },
         colorSchemes: {
             dark: true,
         },
@@ -27,53 +32,25 @@ function App() {
 
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <BrowserRouter>
-                <Routes>
-                    <Route path='/' element={<Login />} />
-                    <Route path='*' element={<Login />} />
-                    <Route path='/authorize-email' element={<AuthorizeEmail />} />
-                    <Route path='/authorize-email-partial' element={<AuthorizeEmailPartial />} />
-                    <Route path='/acesso-negado' element={<PrincingComponent />} />
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path='/' element={<Login />} />
+                        <Route path='*' element={<Login />} />
 
-                    <Route element={<PrivateWrapper />}>
-                        <Route element={<Template />}>
-                            <Route path='/criar-tarefa' element={<CreateTask />} />
-                            <Route path='/home' element={<Home />} />
-                            <Route path='/historico' element={<History />} />
-                            <Route path='/relatorio' element={<Report />} />
-                            <Route path='/arquivadas' element={<ArchivedTasks />} />
-                            <Route path='muagrometro' element={<GlobalCounter />} />
-                            <Route
-                                path='--'
-                                element={
-                                    <div
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            minHeight: '100vh',
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center'
-                                        }}
-                                    >
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="/-/guardiao.jpg"
-                                            alt=""
-                                        />
-                                    </div>
-                                }
-                            />
+                        <Route element={<PrivateWrapper />}>
+                            <Route element={<Template />}>
+                                <Route path='/home' element={<Home />} />
+                                <Route path='/authorization' element={<Authorization />} />
+                                <Route path='/criar-tarefa' element={<CreateTask />} />
+                            </Route>
                         </Route>
-
-
-
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        </ThemeProvider>
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
+        </LocalizationProvider>
     )
 }
 
