@@ -29,7 +29,7 @@ export function useTaskController() {
         dailyGoal: 0,
         totalGoal: 0,
         totalGoalType: 'monthly',
-        createdAt: null,
+        createdAt: new Date(),
         schedule: "",
         dailyTask: true,
         archived: false,
@@ -47,7 +47,7 @@ export function useTaskController() {
             dailyGoal: 0,
             totalGoal: 0,
             totalGoalType: 'monthly',
-            createdAt: null,
+            createdAt: new Date(),
             schedule: "",
             dailyTask: true,
             archived: false,
@@ -168,9 +168,29 @@ export function useTaskController() {
             return;
         }
 
-        if (!task.name) {
+        if (!task.name || task.name.length < 5) {
             setSnackbar(true);
-            setSnackbarMessage('Insira o nome da tarefa');
+            setSnackbarMessage('O título da tarefa deve ter pelo menos 5 caracteres');
+            setSeverity('error');
+            return;
+        }
+
+        if (!task.createdAt) {
+            setSnackbar(true);
+            setSnackbarMessage('Insira a data da tarefa');
+            setSeverity('error');
+            return;
+        }
+
+        const taskDate = new Date(task.createdAt);
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        const limitDate = new Date('2030-12-31');
+        limitDate.setHours(23, 59, 59, 999);
+
+        if (taskDate < now || taskDate > limitDate) {
+            setSnackbar(true);
+            setSnackbarMessage('A data deve ser entre hoje e 31/12/2030');
             setSeverity('error');
             return;
         }

@@ -27,6 +27,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import SharedSnackbar from "../shared/SharedSnackbar";
 import { useTaskController } from "./TaskCreationForm.controller";
 import { useNavigate } from "react-router-dom";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function TaskCreationForm() {
     const {
@@ -121,12 +124,26 @@ export default function TaskCreationForm() {
                     )}
 
                     <TextField
-                        label="Nome"
+                        label="Nome (mínimo 5 caracteres)"
                         value={task.name}
                         onChange={(e) => { if (task.name !== "num sei o qu") { handleChange("name", e.target.value) } else { navigate('/--') } }}
                         fullWidth
                         required
+                        error={task.name.length > 0 && task.name.length < 5}
+                        helperText={task.name.length > 0 && task.name.length < 5 ? "O título deve ter pelo menos 5 caracteres" : ""}
                     />
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            label="Data da Tarefa"
+                            value={task.createdAt ? dayjs(task.createdAt) : dayjs()}
+                            onChange={(newValue) => handleChange("createdAt", newValue?.toDate())}
+                            minDate={dayjs()}
+                            maxDate={dayjs('2030-12-31')}
+                            format="DD/MM/YYYY"
+                            slotProps={{ textField: { fullWidth: true, required: true } }}
+                        />
+                    </LocalizationProvider>
 
                     <TextField
                         label="Descrição (opcional)"
