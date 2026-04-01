@@ -45,6 +45,7 @@ export default function Home() {
     const [authorizedUsers, setAuthorizedUsers] = useState<{ email: string; role: string }[]>([]);
     const [filterUser, setFilterUser] = useState<string>("all");
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
+    const [currentViewDate, setCurrentViewDate] = useState<Dayjs>(dayjs());
 
     const isSuperUser = user?.email === "pedro.belarmino@escoteiros.org.br";
     const isAdmin = profile === "desenvolvedor" || profile === "coordenador" || isSuperUser;
@@ -78,13 +79,14 @@ export default function Home() {
     }, [filteredTasks, selectedDate]);
 
     const highlightedDays = useMemo(() => {
-        // Find tasks in the current month of the selected view date
+        // Find tasks in the month currently being viewed in the calendar
         const currentMonthTasks = filteredTasks.filter(t =>
             t.status !== "finalizado" &&
-            dayjs(t.deadline).isSame(selectedDate || dayjs(), 'month')
+            dayjs(t.deadline).isSame(currentViewDate, 'month') &&
+            dayjs(t.deadline).isSame(currentViewDate, 'year')
         );
         return Array.from(new Set(currentMonthTasks.map(t => dayjs(t.deadline).date())));
-    }, [filteredTasks, selectedDate]);
+    }, [filteredTasks, currentViewDate]);
 
     const handleStatusChange = async (taskId: string, currentStatus: TaskStatus, newStatus: TaskStatus) => {
         if (isFacilitator) {
@@ -151,6 +153,8 @@ export default function Home() {
                 <DateCalendar
                     value={selectedDate}
                     onChange={(newValue) => setSelectedDate(newValue)}
+                    onMonthChange={(newMonth) => setCurrentViewDate(newMonth)}
+                    onYearChange={(newYear) => setCurrentViewDate(newYear)}
                     slots={{ day: ServerDay }}
                     slotProps={{
                         day: { highlightedDays } as any,
