@@ -1,7 +1,8 @@
+import { useMemo } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './views/Login'
 import { ThemeProvider, createTheme, } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, useMediaQuery } from '@mui/material';
 
 import Home from './views/Home';
 import Authorization from './views/Authorization';
@@ -14,21 +15,27 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/pt-br';
 
 function App() {
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-    const theme = createTheme({
-        palette: {
-            mode: 'dark',
-            primary: {
-                main: '#1976d2', // Standard blue primary
-            },
-            secondary: {
-                main: '#9c27b0', // Purple secondary
-            },
-        },
-        colorSchemes: {
-            dark: true,
-        },
-    });
+    const theme = useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode: prefersDarkMode ? 'dark' : 'light',
+                    primary: {
+                        main: '#1976d2', // Standard blue primary
+                    },
+                    secondary: {
+                        main: '#9c27b0', // Purple secondary
+                    },
+                },
+                colorSchemes: {
+                    light: true,
+                    dark: true,
+                },
+            }),
+        [prefersDarkMode],
+    );
 
 
     return (
