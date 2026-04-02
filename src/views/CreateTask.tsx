@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAuth } from "../context/AuthContext";
 import { createTask, listAllAuthorizedUsers } from "../service/taskService";
 import {
@@ -15,6 +15,7 @@ import {
     Alert,
     Stack
 } from "@mui/material";
+import dayjs from "dayjs";
 
 export default function CreateTask() {
     const { user } = useAuth();
@@ -24,6 +25,15 @@ export default function CreateTask() {
     const [deadline, setDeadline] = useState("");
     const [authorizedUsers, setAuthorizedUsers] = useState<{ email: string; role: string }[]>([]);
     const [status, setStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+
+    const today = useMemo(() => dayjs().format("YYYY-MM-DD"), []);
+    const maxDate = "2030-12-31";
+
+    const isFormValid = useMemo(() => {
+        const isTitleValid = title.trim().length >= 5;
+        const isDeadlineValid = deadline >= today && deadline <= maxDate;
+        return isTitleValid && isDeadlineValid && assignedTo !== "";
+    }, [title, deadline, assignedTo, today]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -39,10 +49,20 @@ export default function CreateTask() {
 
         if (!user?.email) return;
 
+        if (title.trim().length < 5) {
+            setStatus({ type: 'error', message: "O título deve ter pelo menos 5 caracteres." });
+            return;
+        }
+
+        if (deadline < today || deadline > maxDate) {
+            setStatus({ type: 'error', message: "A data deve estar entre hoje e 31/12/2030." });
+            return;
+        }
+
         try {
             await createTask({
-                title,
-                description,
+                title: title.trim(),
+                description: description.trim(),
                 assignedTo,
                 deadline,
                 createdBy: user.email
@@ -83,6 +103,8 @@ export default function CreateTask() {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             required
+                            error={title.length > 0 && title.length < 5}
+                            helperText={title.length > 0 && title.length < 5 ? "Mínimo de 5 caracteres" : ""}
                         />
 
                         <TextField
@@ -92,7 +114,6 @@ export default function CreateTask() {
                             rows={3}
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            required
                         />
 
                         <FormControl fullWidth required>
@@ -116,6 +137,10 @@ export default function CreateTask() {
                             label="Prazo Final"
                             type="date"
                             InputLabelProps={{ shrink: true }}
+                            inputProps={{
+                                min: today,
+                                max: maxDate
+                            }}
                             value={deadline}
                             onChange={(e) => setDeadline(e.target.value)}
                             required
@@ -127,7 +152,7 @@ export default function CreateTask() {
                             color="primary"
                             fullWidth
                             size="large"
-                            disabled={!title || !assignedTo || !deadline}
+                            disabled={!isFormValid}
                         >
                             Criar Tarefa
                         </Button>

@@ -46,15 +46,11 @@ function App() {
                 textAlign: "center",
             }}
         >
+            <Typography variant="h6" fontWeight="bold" sx={{ p: 2 }}>GERENCIADOR DA REDE REGIONAL DE JOVENS LIDERES</Typography>
             <img
-                src="/trilhaDoAgradecedor.png"
-                alt="LogoTrilhaDoAgradecedor"
-                style={{ width: 400, maxWidth: "100%" }}
-            />
-            <img
-                src="/logo_semfundo.png"
+                src="/Site RNJL-SP (12).png"
                 alt="Logo"
-                style={{ width: 80, maxWidth: "100%" }}
+                style={{ width: 150, maxWidth: "100%" }}
             />
 
             <CardContent>
