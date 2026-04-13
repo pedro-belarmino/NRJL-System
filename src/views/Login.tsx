@@ -125,12 +125,12 @@ function App() {
                             startIcon={<GoogleIcon />}
                             fullWidth
                         >
-                            Login com Google (*Somente)
+                            Login
                         </Button>
                         <br />
                         <br />
                         <Typography fontSize={"small"}>
-                            (*) É necessário ter uma conta de e-mail do Google com o domínio <b>@escoteiros.org.br</b>. Muagra 🙌🏻
+                            (*) É necessário ter uma conta de e-mail do Google com o domínio <b>@escoteiros.org.br</b>.
                         </Typography>
                     </div>
                 )}
